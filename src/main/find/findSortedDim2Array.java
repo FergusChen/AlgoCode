@@ -9,7 +9,7 @@ package main.find;
  *  9   10  18  21
  *  */
 
-public class findSortedDim2Array {
+public class FindSortedDim2Array {
     public static void main(String[] args){
 
         int[][] testArr1 = null;
@@ -24,22 +24,22 @@ public class findSortedDim2Array {
      * 继续与剩余元素的右上角的比较，用同样的方法，排除元素，直到找到相应的数，或者比较到左下角的数字仍不相等
      * test: (null,7)、 (1*10个元素,7)、(4*5个元素,7), (4*5个元素,0)
      * */
-    public static boolean find(int[][] arr, int key){
+    public static boolean find(int[][] matrix, int key){
         boolean found = false;
-        if(arr == null) return false;
+        if(matrix == null) return false;
 
-        int rows = arr.length;
+        int rows = matrix.length;
         int columns = 0;
         if(rows > 0){
-            columns = arr[0].length;
+            columns = matrix[0].length;
         }
 
         if(rows > 0 && columns > 0){
             int row = 0;
             int column = columns - 1;
             while(row < rows && column >=0){
-                int number = arr[row][column];
-                System.out.println(number + "\t");
+                int number = matrix[row][column];
+                System.out.print(number + "\t");
                 if(number == key){
                     found = true;
                     break;
