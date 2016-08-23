@@ -1,0 +1,17 @@
+build
+/*/target
+/*/.classpath
+/*/.project
+/*/.settings
+/*/logs
+/*/*avro
+/*/.*
+/*/classes
+.classpath
+.project
+.settings
+.metadata
+*.iml
+.idea
+workspace.xml
+
