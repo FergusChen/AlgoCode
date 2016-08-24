@@ -9,27 +9,28 @@ package main.other;
  */
 public class ReplaceSpace {
     public static void main(String[] args){
-//        StringBuffer str = new StringBuffer();
-//        str.append("We Are Happy");
-//        char[] strArr = initStrArr(" We Are Happy  ", 30);
-//        System.out.println(replaceSpace3(str));
-//        replaceSpace2(strArr, 30);
-//        System.out.println(strArr);
-        //test: (null, null ,0),(new int[]{}, new int[]{}, 0) ([2,5,8,19,29],[4,19,20,36], 12), (null,[4,19,20,36], 7),([2,5,8,19,29],null, 12)
-//        int[] arr1 = new int[12];
-//        arr1[0] = 2;
-//        arr1[1] = 5;
-//        arr1[2] = 8;
-//        arr1[3] = 19;
-//        arr1[4] = 29;
-        int[] arr1 = null;
-//        int[] arr2 = new int[5];
-//        arr2[0] = 4;
-//        arr2[1] = 19;
-//        arr2[2] = 20;
-//        arr2[3] = 36;
-//        arr1[4] = 29;
-        int[] arr2 = null;
+        StringBuffer str = new StringBuffer();
+        str.append("We Are Happy");
+        char[] strArr = initStrArr(" We Are Happy  ", 30);
+        System.out.println(replaceSpace3(str));
+        replaceSpace2(strArr, 30);
+        System.out.println(strArr);
+
+        //test mergeArray
+        int[] arr1 = new int[12];
+        arr1[0] = 2;
+        arr1[1] = 5;
+        arr1[2] = 8;
+        arr1[3] = 19;
+        arr1[4] = 29;
+//        int[] arr1 = null;
+        int[] arr2 = new int[5];
+        arr2[0] = 4;
+        arr2[1] = 19;
+        arr2[2] = 20;
+        arr2[3] = 36;
+        arr1[4] = 29;
+//        int[] arr2 = null;
         mergeArray(arr1, arr2, 12);
         printArr(arr1);
     }
