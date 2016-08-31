@@ -4,7 +4,6 @@ build
 /*/.project
 /*/.settings
 /*/logs
-/*/*avro
 /*/.*
 /*/classes
 /out
@@ -12,7 +11,5 @@ build
 .project
 .settings
 .metadata
-*.iml
-.idea
 workspace.xml
 
