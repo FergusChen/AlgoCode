@@ -6,6 +6,7 @@ package main.sort;
  * 主要包括：
  * --插入排序
  */
+import main.util.ArrayUtil;
 
 public class BasicSortAlgo {
 
@@ -20,64 +21,38 @@ public class BasicSortAlgo {
 
         /**test： ------插入排序------*/
         insertSort(arr4);
-        printArray(arr4);
+        ArrayUtil.printArray(arr4);
 
         /**test: -------冒泡排序-------*/
 //        bubbleSort(arr5);
-//        printArray(arr5);
+//        ArrayUtil.printArray(arr5);
 
         /**test: -------选择排序------*/
 //        selectSort(arr5);
-//        printArray(arr5);
+//        ArrayUtil.printArray(arr5);
         /**test: ------归并排序------*/
 //        mergeSort(arr5, 0 , arr5.length-1);
-//        printArray(arr5);
+//        ArrayUtil.printArray(arr5);
 
         /**test: ------快速排序------*/
 //        int[] arr6 = {3, 2, 7, 6, 8, 4, 5};
 //        quickSort(arr6, 0, arr6.length - 1);
-//        printArray(arr6);
+//        ArrayUtil.printArray(arr6);
 
         /**test: -------堆排序-------*/
 //        heapSort(arr5);
-//        printArray(arr5);
+//        ArrayUtil.printArray(arr5);
 
 
     }
 
-    /**
-     * 辅助方法
-     * ------打印数组------
-     *
-     * @param array 待打印的数组
-     */
-    public static void printArray(int[] array) {
-        if (array == null || array.length == 0) {
-            System.out.println("[]");
-            return;
-        }
-        System.out.print("[");
-        for (int i = 0; i < array.length; i++) {
-            if (i == array.length - 1) {
-                System.out.print(array[i]);
-            } else {
-                System.out.print(array[i] + ", ");
-            }
-        }
-        System.out.println("]");
-    }
 
-    public static void exchangeElements(int[] array, int i, int j) {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
 
     /**
      * ------插入排序------
+     * test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      *
      * @param array 待排序数组
-     *              test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      */
     public static void insertSort(int[] array) {
         if (array == null || array.length <= 1) {
@@ -101,9 +76,9 @@ public class BasicSortAlgo {
 
     /**
      * 冒泡排序
+     * test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      *
      * @param array 待排序数组
-     *              test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      */
     public static void bubbleSort(int[] array) {
         if (array == null || array.length <= 1) {
@@ -113,7 +88,7 @@ public class BasicSortAlgo {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array.length - i - 1; j++) {
                 if (array[j] > array[j + 1]) {
-                    exchangeElements(array, j, j + 1);
+                    ArrayUtil.exchangeElements(array, j, j + 1);
                 }
 
             }
@@ -123,9 +98,9 @@ public class BasicSortAlgo {
 
     /**
      * 选择排序
+     * test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      *
      * @param array 待排序数组
-     *              test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      */
     public static void selectSort(int[] array) {
         if (array == null || array.length <= 1) {
@@ -138,17 +113,17 @@ public class BasicSortAlgo {
                     minIndex = j;
                 }
             }
-            exchangeElements(array, i, minIndex);
+            ArrayUtil.exchangeElements(array, i, minIndex);
         }
     }
 
     /**
      * 归并排序
+     * test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      *
      * @param array 待排序数组
      * @param low   待排序数组序列的最低位置
      * @param high  待排序数组序列的最高位置
-     *              test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      */
     public static void mergeSort(int[] array, int low, int high) {
         if (array == null || array.length <= 1) {
@@ -164,12 +139,12 @@ public class BasicSortAlgo {
 
     /**
      * 归并过程
+     * 将array中 low到high的元素归并到有序序列，其中，low到mid的序列是有序的，mid+1到high的序列是有序的。
      *
      * @param array 待合并的数组
      * @param low   待合并数组序列的最低位置
      * @param mid   待合并数组序列中划分两个有序序列的位置
      * @param high  待合并数组序列的最高位置
-     *              将array中 low到high的元素归并到有序序列，其中，low到mid的序列是有序的，mid+1到high的序列是有序的。
      */
     public static void merge(int[] array, int low, int mid, int high) {
         int[] tempArr = new int[high - low + 1];
@@ -207,6 +182,8 @@ public class BasicSortAlgo {
 
     /**
      * 堆排序
+     *
+     * @param array 待排序的堆
      */
     public static void heapSort(int[] array) {
         if (array == null || array.length <= 1) {
@@ -215,7 +192,7 @@ public class BasicSortAlgo {
 
         buildMaxHeap(array);
         for (int i = array.length - 1; i >= 1; i--) {
-            exchangeElements(array, 0, i);
+            ArrayUtil.exchangeElements(array, 0, i);
 
             maxHeapify(array, i, 0);
         }
@@ -225,6 +202,10 @@ public class BasicSortAlgo {
      * 维护堆
      * 在这个堆中，只有index位置的元素违背了最大堆的性质，调整该元素的位置，使index位置元素为结点为根的堆仍然是最大堆。
      * 思想：index位置的元素与其左右孩子比较，将三个元素中的最大值与index位置的元素交换，然后递归地向下调整
+     *
+     * @param array    待维护的堆
+     * @param heapSize 堆的元素个数
+     * @param index    带调整的元素位置
      */
     public static void maxHeapify(int[] array, int heapSize, int index) {
         int left = index * 2 + 1;
@@ -239,7 +220,7 @@ public class BasicSortAlgo {
         }
 
         if (largest != index) {
-            exchangeElements(array, index, largest);
+            ArrayUtil.exchangeElements(array, index, largest);
 
             maxHeapify(array, heapSize, largest);//递归地向下维护堆
         }
@@ -247,6 +228,8 @@ public class BasicSortAlgo {
 
     /**
      * 新建最大堆
+     *
+     * @param array 待建堆的数组
      */
     public static void buildMaxHeap(int[] array) {
         if (array == null || array.length <= 1) {
@@ -261,11 +244,11 @@ public class BasicSortAlgo {
 
     /**
      * 快速排序
+     * test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      *
      * @param array 带排序的数组
      * @param low   带排序数组的最低位置
      * @param high  带排序的数组的最高位置
-     *              test: (null), （1个元素的数组），（空数组），(5个无序整数数组)，（6个无序整数数组）
      */
     public static void quickSort(int[] array, int low, int high) {
         if (array == null || array.length <= 1) {
@@ -288,7 +271,7 @@ public class BasicSortAlgo {
      */
     public static int randomPartition(int[] array, int low, int high) {
         int i = (int) (low + Math.random() * (high - low + 1)); //产生low到high之间的随机数
-        exchangeElements(array, high, i);
+        ArrayUtil.exchangeElements(array, high, i);
         return partition(array, low, high);
     }
 
@@ -312,12 +295,12 @@ public class BasicSortAlgo {
                 i++;
                 //如果i == j 就无需交换了。
                 if (i != j) {
-                    exchangeElements(array, i, j);
+                    ArrayUtil.exchangeElements(array, i, j);
                 }
             }
         }
         //此时，i指向小于key的序列的尾部，则将key与i+1的元素交换，就将整个序列划分为A、B两个部分，其中A：小于或等于key的元素，B：大于key的元素。
-        exchangeElements(array, i + 1, high);
+        ArrayUtil.exchangeElements(array, i + 1, high);
         //返回用于划分的主元的位置。
         return i + 1;
     }
