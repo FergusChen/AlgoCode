@@ -1,5 +1,7 @@
 package main.other;
 
+import main.util.ArrayUtil;
+
 /**
  * Created by Administrator on 2016/8/23.
  * 请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
@@ -37,7 +39,7 @@ public class ReplaceSpace {
 
 
     public static void printArr(int[] arr){
-        if(isArrayEmpty(arr)){
+        if(ArrayUtil.isArrayEmpty(arr)){
             System.out.println("[]");
             return;
         }
@@ -148,7 +150,7 @@ public class ReplaceSpace {
      * 此方法将两个排好序的数组合并到数组arr1中
      * test: (null, null ,0),(new int[]{}, new int[]{}, 0) ([2,5,8,19,29],[4,19,20,36], 12), (null,[4,19,20,36], 7),([2,5,8,19,29],null, 12)*/
     public static void mergeArray(int[] arr1, int[] arr2, int capacity){
-        if(isArrayEmpty(arr1) && !isArrayEmpty(arr2)){
+        if(ArrayUtil.isArrayEmpty(arr1) && !ArrayUtil.isArrayEmpty(arr2)){
             arr1 = new int[arr2.length];
             for(int i = 0; i < arr2.length; i++){
                 arr1[i] = arr2[i];
@@ -156,7 +158,7 @@ public class ReplaceSpace {
             return;
         }
 
-        if(isArrayEmpty(arr2)) return;
+        if(ArrayUtil.isArrayEmpty(arr2)) return;
 
         int arr1RealLength = 0;
         int arr2RealLength = 0;
@@ -185,7 +187,5 @@ public class ReplaceSpace {
         }
     }
 
-    public static boolean isArrayEmpty(int[] arr){
-        return arr == null || arr.length == 0;
-    }
+
 }

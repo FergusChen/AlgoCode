@@ -15,6 +15,9 @@ public class LinkListAlgo {
         Node s1 = new Node(7);
         s1.next = s1;
 
+        Node s2 = null;
+        Node s3 = new Node(7);
+
         //偶数结点的链表
         Node d1 = new Node(5);
         Node d2 = new Node(8);
@@ -37,8 +40,12 @@ public class LinkListAlgo {
         n3.next = n4;
         n4.next = n5;
 
-        /**test printListReversingly_Iterattively(Node)*/
+        /**test printListReversingly_Iterattively(Node head)*/
 //        printListReversingly_Iterattively(d1);
+
+        /**test reverseLinklist(Node head)*/
+        Node reverseHead = reverseLinklist(n1);
+        printLinkList(reverseHead);
 
         /**test getReKthNode2(Node d1, int k)*/
 //        Node result = getReKthNode2(d1, 1);
@@ -159,6 +166,34 @@ public class LinkListAlgo {
         }
     }
 
+    /**
+     * 反转链表
+     * 反转后,使head指向反转后的链表头.
+     * test: (null), (单结点链表), (奇数个结点的链表),(偶数个结点的链表) 不处理循环链表
+     * @param head 链表表头
+     * */
+    public static Node reverseLinklist(Node head){
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        Node reverseHead = null;
+        Node preNode = null; //当前结点的前一个结点
+        Node curNode = head; //当前节点
+
+        //从前往后遍历,改变curNode的指针,以反转整个链表
+        while(curNode != null){
+            Node nextNode = curNode.next;
+            if(nextNode == null){
+                reverseHead = curNode;
+            }
+
+            curNode.next = preNode;
+            preNode = curNode;
+            curNode = nextNode;
+        }
+        return reverseHead;
+    }
 
     /**
      * 查找单链表倒数第k个元素

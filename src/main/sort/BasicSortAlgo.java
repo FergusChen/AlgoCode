@@ -287,11 +287,10 @@ public class BasicSortAlgo {
     public static int partition(int[] array, int low, int high) {
         int key = array[high]; //主元，即用于划分的元素
 
-
         int i = low - 1; //i指向 小于key的序列的尾部
         //j来遍历整个序列，将小于key的元素放到i的左边
         for (int j = low; j < high; j++) {
-            if (array[j] <= key) {//不仅是小于key，连等于key的元素也交换，以保证划分过程是原址重排
+            if (array[j] <= key) {  //小于或等于key的元素,就被交换到的前面
                 i++;
                 //如果i == j 就无需交换了。
                 if (i != j) {
