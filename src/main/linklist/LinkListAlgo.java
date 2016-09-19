@@ -306,14 +306,12 @@ public class LinkListAlgo {
             if (head1.data <= head2.data) {
                 mergeCur.next = head1;
                 head1 = head1.next;
-                mergeCur = mergeCur.next;
-                mergeCur.next = null; //使merge结果与原head1后面的元素断开。
             } else {
                 mergeCur.next = head2;
                 head2 = head2.next;
-                mergeCur = mergeCur.next;
-                mergeCur.next = null; //使merge结果与原head2后面的元素断开。
             }
+            mergeCur = mergeCur.next;
+            mergeCur.next = null; //使merge结果与原链表后面的元素断开。
         }
         if (head1 != null) {
             mergeCur.next = head1;

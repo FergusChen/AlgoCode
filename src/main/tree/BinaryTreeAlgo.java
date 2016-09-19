@@ -9,35 +9,61 @@ import java.util.*;
 public class BinaryTreeAlgo {
     public static void main(String[] args) {
 
+        BTNode s1 = null;
+        BTNode s2 = new BTNode(1);
+        /**默认二叉树
+         *       3
+         *   6      5
+         * 7   2  8
+         * 前序遍历：根结点->左子树->右子树  3,6,7,2,5,8
+         * 中序遍历：左子树->根结点->右子树  7,6,2,3,8,5
+         * 后序遍历：左子树->右子树->根结点  7,2,6,8,5,3
+         * */
         BTNode n1 = new BTNode(3);
         BTNode n2 = new BTNode(6);
         BTNode n3 = new BTNode(5);
         BTNode n4 = new BTNode(7);
         BTNode n5 = new BTNode(2);
         BTNode n6 = new BTNode(8);
-//        n1.left = n2;
-//        n1.right = n3;
-//        n2.left = n4;
-//        n2.right = n5;
-//        n3.left = n6;
+        n1.left = n2;
+        n2.parent = n1;
+        n1.right = n3;
+        n3.parent = n1;
+        n2.left = n4;
+        n4.parent = n2;
+        n2.right = n5;
+        n5.parent = n2;
+        n3.left = n6;
+        n6.parent = n3;
 
         int[] preOrder = {3,6,7,2,5,8};
         int[] inOrder = {7,6,2,3,8,5};
-        int[] spePreOrder = {3}; //只有1个结点的数
+        int[] spePreOrder = {3}; //只有1个结点的树
         int[] speInOrder = {3};
         int[] leftPreOrder = {3,6,7}; //只有左子树的二叉树
         int[] leftInOrder = {7,6,3};
 //        printTree(n1);
 
-        BTNode root = reContructBinaryTree(leftPreOrder, leftInOrder);
-        printTree(root);
+        /**test: reContructBinaryTree*/
+//        BTNode root = reContructBinaryTree(leftPreOrder, leftInOrder);
+//        printTree(root);
+
+        /**test: preOrder*/
+//        preOrder(n1);
+//        preOrder_nonRec(n1);
+
+        /**test:midOrder*/
+//        midOrder(n1);
+        midOrder_nonRec(n1);
+        /**test:postOrder*/
+//        postOrder(n1);
 
 
     }
 
 
     /**辅助方法
-     * 打印二叉树
+     * 按层次打印二叉树
      * 按层次遍历二叉树，其思想就是利用队列的先进先出的特点，逐个将左右结点放入队列中
      * */
     public static void printTree(BTNode root){
@@ -47,21 +73,113 @@ public class BinaryTreeAlgo {
         }
 
         Queue<BTNode> treeQueue = new LinkedList<BTNode>();
-        treeQueue.offer(root);
+        treeQueue.offer(root); //先将根结点放入队列。
         while(!treeQueue.isEmpty()){
-            BTNode node = treeQueue.poll();
+            BTNode node = treeQueue.poll(); //将队列中已有的结点出队列。
             System.out.print(node.data + "\t");
+            //出队列的同时扫描该结点的左右孩子，并逐个放入到队列中。
             if(node.left != null){
                 treeQueue.offer(node.left);
             }
             if(node.right != null){
                 treeQueue.offer(node.right);
             }
-
         }
 
     }
 
+    /**
+     * 前序遍历二叉树（递归实现）
+     * 思路：根据前序遍历的特点：根结点->左子树->右子树，用递归实现
+     * test:(null),(单结点)，（默认二叉树）
+     * @param root 二叉树的根结点
+     * */
+    public static void preOrder(BTNode root){
+        if(root != null){
+            System.out.print(root.data + "\t");
+            preOrder(root.left);
+            preOrder(root.right);
+        }
+    }
+
+    /**
+     * 前序遍历二叉树（非递归实现）
+     * 思路：利用栈从根结点，一直将左子树入栈，直到左子树为null，
+     * 然后逐个将结点出栈，同时遍历该结点的右子树，
+     * 遍历右子树为根的子树时，用同样的方法从根节点，一直将左子树入栈。
+     * test:(null),(单结点)，（默认二叉树）
+     * @param root 二叉树的根节点
+     * */
+    public static void preOrder_nonRec(BTNode root){
+        if(root == null){
+            System.out.println("empty tree");
+            return;
+        }
+
+        Stack<BTNode> treeStack = new Stack<BTNode>();
+        BTNode node = root;
+        while(node != null || treeStack.size() > 0) {
+            while (node != null) {
+                System.out.print(node.data + "\t");
+                treeStack.push(node);
+                node = node.left;
+            }
+            node = treeStack.pop();
+            node = node.right;
+        }
+    }
+
+
+    /**
+     * 中序遍历二叉树(递归遍历)
+     * 思路：根据中序遍历的特点：左子树->根结点->右子树 递归遍历
+     * test:(null),(单结点)，（默认二叉树）
+     * @param root 二叉树的根结点
+     * */
+    public static void midOrder(BTNode root){
+        if(root != null){
+            midOrder(root.left);
+            System.out.print(root.data + "\t");
+            midOrder(root.right);
+        }
+    }
+
+    /**
+     * 中序遍历二叉树（非递归遍历）
+     * 思路：与非递归前序遍历类似。只是访问结点是时机不同
+     * test:(null),(单结点)，（默认二叉树）
+     * @param root 二叉树的根结点
+     * */
+    public static void midOrder_nonRec(BTNode root){
+        if(root == null){
+            System.out.println("empty tree");
+            return;
+        }
+        Stack<BTNode> treeStack = new Stack<BTNode>();
+        BTNode node = root;
+        while(node != null || treeStack.size() > 0){
+            while(node != null){
+                treeStack.push(node);
+                node = node.left;
+            }
+            node = treeStack.pop();
+            System.out.print(node.data + "\t");
+            node = node.right;
+        }
+    }
+    /**
+     * 后续遍历二叉树
+     * 思路：根据后序遍历的特点：左子树->右子树->根结点 递归遍历
+     * test:(null),(单结点)，（默认二叉树）
+     * @param root 二叉树的根结点
+     * */
+    public static void postOrder(BTNode root){
+        if(root != null){
+            postOrder(root.left);
+            postOrder(root.right);
+            System.out.print(root.data + "\t");
+        }
+    }
     /**
      * 根据前序遍历和中序遍历的序列构造二叉树
      * 如果动手去画还是很容易的。简单来说，前序序列的第1个结点是二叉树的根节点，以此结点将中序序列分为两部分，
