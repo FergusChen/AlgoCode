@@ -36,12 +36,19 @@ public class BinaryTreeAlgo {
         n3.left = n6;
         n6.parent = n3;
 
-        int[] preOrder = {3,6,7,2,5,8};
-        int[] inOrder = {7,6,2,3,8,5};
+        BTNode ns = new BTNode(6);
+        BTNode ns1 = new BTNode(7);
+        BTNode ns2 = new BTNode(8);
+        ns.left = ns1;
+        ns.right = ns2;
+
+        System.out.println("是否包含相同的子树:" + hasSubTree(n1, ns));
+        int[] preOrder = {3, 6, 7, 2, 5, 8};
+        int[] inOrder = {7, 6, 2, 3, 8, 5};
         int[] spePreOrder = {3}; //只有1个结点的树
         int[] speInOrder = {3};
-        int[] leftPreOrder = {3,6,7}; //只有左子树的二叉树
-        int[] leftInOrder = {7,6,3};
+        int[] leftPreOrder = {3, 6, 7}; //只有左子树的二叉树
+        int[] leftInOrder = {7, 6, 3};
 //        printTree(n1);
 
         /**test: reContructBinaryTree*/
@@ -54,7 +61,7 @@ public class BinaryTreeAlgo {
 
         /**test:midOrder*/
 //        midOrder(n1);
-        midOrder_nonRec(n1);
+//        midOrder_nonRec(n1);
         /**test:postOrder*/
 //        postOrder(n1);
 
@@ -62,26 +69,27 @@ public class BinaryTreeAlgo {
     }
 
 
-    /**辅助方法
+    /**
+     * 辅助方法
      * 按层次打印二叉树
      * 按层次遍历二叉树，其思想就是利用队列的先进先出的特点，逐个将左右结点放入队列中
-     * */
-    public static void printTree(BTNode root){
-        if(root == null){
+     */
+    public static void printTree(BTNode root) {
+        if (root == null) {
             System.out.println("null");
             return;
         }
 
         Queue<BTNode> treeQueue = new LinkedList<BTNode>();
         treeQueue.offer(root); //先将根结点放入队列。
-        while(!treeQueue.isEmpty()){
+        while (!treeQueue.isEmpty()) {
             BTNode node = treeQueue.poll(); //将队列中已有的结点出队列。
             System.out.print(node.data + "\t");
             //出队列的同时扫描该结点的左右孩子，并逐个放入到队列中。
-            if(node.left != null){
+            if (node.left != null) {
                 treeQueue.offer(node.left);
             }
-            if(node.right != null){
+            if (node.right != null) {
                 treeQueue.offer(node.right);
             }
         }
@@ -92,10 +100,11 @@ public class BinaryTreeAlgo {
      * 前序遍历二叉树（递归实现）
      * 思路：根据前序遍历的特点：根结点->左子树->右子树，用递归实现
      * test:(null),(单结点)，（默认二叉树）
+     *
      * @param root 二叉树的根结点
-     * */
-    public static void preOrder(BTNode root){
-        if(root != null){
+     */
+    public static void preOrder(BTNode root) {
+        if (root != null) {
             System.out.print(root.data + "\t");
             preOrder(root.left);
             preOrder(root.right);
@@ -108,17 +117,18 @@ public class BinaryTreeAlgo {
      * 然后逐个将结点出栈，同时遍历该结点的右子树，
      * 遍历右子树为根的子树时，用同样的方法从根节点，一直将左子树入栈。
      * test:(null),(单结点)，（默认二叉树）
+     *
      * @param root 二叉树的根节点
-     * */
-    public static void preOrder_nonRec(BTNode root){
-        if(root == null){
+     */
+    public static void preOrder_nonRec(BTNode root) {
+        if (root == null) {
             System.out.println("empty tree");
             return;
         }
 
         Stack<BTNode> treeStack = new Stack<BTNode>();
         BTNode node = root;
-        while(node != null || treeStack.size() > 0) {
+        while (node != null || treeStack.size() > 0) {
             while (node != null) {
                 System.out.print(node.data + "\t");
                 treeStack.push(node);
@@ -134,10 +144,11 @@ public class BinaryTreeAlgo {
      * 中序遍历二叉树(递归遍历)
      * 思路：根据中序遍历的特点：左子树->根结点->右子树 递归遍历
      * test:(null),(单结点)，（默认二叉树）
+     *
      * @param root 二叉树的根结点
-     * */
-    public static void midOrder(BTNode root){
-        if(root != null){
+     */
+    public static void midOrder(BTNode root) {
+        if (root != null) {
             midOrder(root.left);
             System.out.print(root.data + "\t");
             midOrder(root.right);
@@ -148,17 +159,18 @@ public class BinaryTreeAlgo {
      * 中序遍历二叉树（非递归遍历）
      * 思路：与非递归前序遍历类似。只是访问结点是时机不同
      * test:(null),(单结点)，（默认二叉树）
+     *
      * @param root 二叉树的根结点
-     * */
-    public static void midOrder_nonRec(BTNode root){
-        if(root == null){
+     */
+    public static void midOrder_nonRec(BTNode root) {
+        if (root == null) {
             System.out.println("empty tree");
             return;
         }
         Stack<BTNode> treeStack = new Stack<BTNode>();
         BTNode node = root;
-        while(node != null || treeStack.size() > 0){
-            while(node != null){
+        while (node != null || treeStack.size() > 0) {
+            while (node != null) {
                 treeStack.push(node);
                 node = node.left;
             }
@@ -167,19 +179,22 @@ public class BinaryTreeAlgo {
             node = node.right;
         }
     }
+
     /**
      * 后续遍历二叉树
      * 思路：根据后序遍历的特点：左子树->右子树->根结点 递归遍历
      * test:(null),(单结点)，（默认二叉树）
+     *
      * @param root 二叉树的根结点
-     * */
-    public static void postOrder(BTNode root){
-        if(root != null){
+     */
+    public static void postOrder(BTNode root) {
+        if (root != null) {
             postOrder(root.left);
             postOrder(root.right);
             System.out.print(root.data + "\t");
         }
     }
+
     /**
      * 根据前序遍历和中序遍历的序列构造二叉树
      * 如果动手去画还是很容易的。简单来说，前序序列的第1个结点是二叉树的根节点，以此结点将中序序列分为两部分，
@@ -249,10 +264,54 @@ public class BinaryTreeAlgo {
         return root;
     }
 
+    /**
+     * 有两棵树A和B，判断树B是否是树A的子结构。
+     * 思路：分两步
+     * step1：先在树A中找到树B根节点相同的结点p。
+     * step2：判断以p为结点的子树与树B的结构是否相同。
+     */
+    public static boolean hasSubTree(BTNode pRoot1, BTNode pRoot2) {
+        boolean result = false;
+        if (pRoot1 != null && pRoot2 != null) {
+            if (pRoot1.data == pRoot2.data) {
+                //如果根节点相同，则判断树1是否包含树2
+                result = doesTree1HaveTree2(pRoot1, pRoot2);
+            }
+            if (!result) {
+                //递归判断树1的左子树，
+                result = hasSubTree(pRoot1.left, pRoot2);
+            }
+            if (!result) {
+                //递归判断树1的右子树
+                result = hasSubTree(pRoot1.right, pRoot2);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 判断树A是否包含树B
+     */
+    public static boolean doesTree1HaveTree2(BTNode tree1, BTNode tree2) {
+        if (tree2 == null) {
+            return true;
+        }
+        if (tree1 == null) {
+            return false;
+        }
+        if (tree1.data != tree2.data) {
+            return false;
+        }
+
+        return doesTree1HaveTree2(tree1.left, tree2.left)
+                && doesTree1HaveTree2(tree1.right, tree2.right);
+    }
+
+
     public static boolean isOrderValid(int[] preOrder, int[] inOrder) {
         if (preOrder.length == 0 || inOrder.length == 0 || preOrder.length != inOrder.length) {
             return false;
-        }else{
+        } else {
             return true;
         }
 

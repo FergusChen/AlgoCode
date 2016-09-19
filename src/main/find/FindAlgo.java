@@ -33,7 +33,7 @@ public class FindAlgo {
             throw new RuntimeException("数组不能为空");
         }
         int low  = 0;       //旋转数组的特点，让low始终指向旋转分界线的前半部分
-        int high = array.length - 1;  //旋转数组的特点，让high始终指向旋转分界线的前半部分
+        int high = array.length - 1;  //旋转数组的特点，让high始终指向旋转分界线的后半部分
 
         if(low == high){ //如果只有1个元素时，直接返回该元素
             return array[low];
@@ -46,7 +46,8 @@ public class FindAlgo {
                 break;
             }
 
-            mid = (high + low) /2 ;
+            mid = (high + low) / 2 ;
+            //如果数组中很多相同元素，旋转后low != high,但array[low] == array[high]，就只能按照一般的查找办法
             if(array[low] == array[mid] && array[high] == array[mid]){
                 return minInArray(array, low, high);
             }

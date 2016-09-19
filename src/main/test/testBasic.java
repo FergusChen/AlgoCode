@@ -11,15 +11,15 @@ import java.util.Scanner;
 public class testBasic {
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
-        String str = sc.nextLine();
-        System.out.println(str);
-
-        Scanner sc2 = new Scanner(System.in);
-        String str2;
-        while(sc2.hasNextLine()){
-            str2 = sc2.nextLine();
-            System.out.println(str2);
-        }
+//        String str = sc.nextLine();
+//        System.out.println(str);
+//
+//        Scanner sc2 = new Scanner(System.in);
+//        String str2;
+//        while(sc2.hasNextLine()){
+//            str2 = sc2.nextLine();
+//            System.out.println(str2);
+//        }
 //        Integer i1 = 127, i2=127;
 //        Integer i3=128,i4=128;
 //        System.out.println(i1==i2);
@@ -47,7 +47,33 @@ public class testBasic {
         d2.next = d3;
         d3.next = d4;
 
+        while(sc.hasNextLine()) {
+            int num = sc.nextInt();
+            int nthDigit = findNthDigit(num);
+            System.out.println("num:" + nthDigit);
+        }
+    }
+/**
+ * find the length of the number where the nth digit is from
+   find the actual number where the nth digit is from
+   find the nth digit and return
+ * */
+    public static int findNthDigit(int n) {
+        int len = 1;  //记录实际指向的数字的位数，
+        long count = 9;//记录不同位数的数字个数，1位：9个；2位：99-10+1=90个；3位：999-100+1=900个...
+        int start = 1; //找到实际的数字
 
+        //通过循环，n变换为差值，len确定实际数字的位数，count用于控制循环（减去1位，减去2位，减去3位...）。
+        while (n > len * count) {
+            n -= len * count;
+            len += 1;
+            count *= 10;
+            start *= 10;
+        }
+
+        start += (n - 1) / len;
+        String s = Integer.toString(start);
+        return Character.getNumericValue(s.charAt((n - 1) % len));
     }
 
 
