@@ -42,7 +42,7 @@ public class BinaryTreeAlgo {
         ns.left = ns1;
         ns.right = ns2;
 
-        System.out.println("是否包含相同的子树:" + hasSubTree(n1, ns));
+
         int[] preOrder = {3, 6, 7, 2, 5, 8};
         int[] inOrder = {7, 6, 2, 3, 8, 5};
         int[] spePreOrder = {3}; //只有1个结点的树
@@ -64,6 +64,14 @@ public class BinaryTreeAlgo {
 //        midOrder_nonRec(n1);
         /**test:postOrder*/
 //        postOrder(n1);
+
+        /**test：hasSubTree*/
+//        System.out.println("是否包含相同的子树:" + hasSubTree(n1, ns));
+
+        /**test: mirrorRecursively*/
+        printTree(n1);
+        mirrorRecursively(n1);
+        printTree(n1);
 
 
     }
@@ -93,6 +101,7 @@ public class BinaryTreeAlgo {
                 treeQueue.offer(node.right);
             }
         }
+        System.out.println();
 
     }
 
@@ -307,6 +316,28 @@ public class BinaryTreeAlgo {
                 && doesTree1HaveTree2(tree1.right, tree2.right);
     }
 
+
+    /**
+     * 获取二叉树的镜像（反转）
+     * 思路：通过画图，可以看到镜像就是左右子树反转。这样，可以在前序遍历的同时，反转左右子树即可。
+     * test:(null), (单个结点)， （只有左子树），（完整二叉树）
+     */
+    public static void mirrorRecursively(BTNode root) {
+        if (root == null || (root.left == null && root.right == null)) {
+            return;
+        }
+
+        BTNode temp = root.right;
+        root.right = root.left;
+        root.left = temp;
+
+        if (root.left != null) {
+            mirrorRecursively(root.left);
+        }
+        if (root.right != null) {
+            mirrorRecursively(root.right);
+        }
+    }
 
     public static boolean isOrderValid(int[] preOrder, int[] inOrder) {
         if (preOrder.length == 0 || inOrder.length == 0 || preOrder.length != inOrder.length) {

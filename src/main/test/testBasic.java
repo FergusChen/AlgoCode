@@ -53,11 +53,7 @@ public class testBasic {
             System.out.println("num:" + nthDigit);
         }
     }
-/**
- * find the length of the number where the nth digit is from
-   find the actual number where the nth digit is from
-   find the nth digit and return
- * */
+
     public static int findNthDigit(int n) {
         int len = 1;  //记录实际指向的数字的位数，
         long count = 9;//记录不同位数的数字个数，1位：9个；2位：99-10+1=90个；3位：999-100+1=900个...
