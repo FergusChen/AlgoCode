@@ -69,10 +69,11 @@ public class BinaryTreeAlgo {
 //        System.out.println("是否包含相同的子树:" + hasSubTree(n1, ns));
 
         /**test: mirrorRecursively*/
-        printTree(n1);
-        mirrorRecursively(n1);
-        printTree(n1);
-
+//        printTree(n1);
+//        mirrorRecursively(n1);
+//        printTree(n1);
+        int[] data = {6,12,16,17,15,8,22,19};
+        System.out.println(verifySquenceOfBST(data, 0, data.length - 1));
 
     }
 
@@ -337,6 +338,47 @@ public class BinaryTreeAlgo {
         if (root.right != null) {
             mirrorRecursively(root.right);
         }
+    }
+
+    /**
+     * 检查输入序列是否是一个平衡二叉树后序遍历序列。
+     * 思路：序列最后一个结点是根节点，平衡二叉树左半部分比根节点小，右半部分比根节点大。
+     * 可以先找到分界线，然后判断右半部分是否都比根节点大，不然的话就不是平衡二叉树的后序遍历序列。
+     * 然后依次判断左半部分和右半部分。这是一个递归的过程。
+     * test：（null），（单个结点），（只有左子树的平衡二叉树）， （完整的平衡二叉树）
+     * */
+    public static boolean verifySquenceOfBST(int[] data, int start, int end){
+        //如果子树的length为0，则返回false。
+        if(data == null || end - start + 1 <= 0){
+            return false;
+        }
+
+        int root = data[end];
+        int i = start;
+        for(; i < end; i++){
+            if(data[i] > root){
+                break;
+            }
+        }
+
+        for(int j = i ; j < end; j++){
+            if(data[j] < root){
+                return false;
+            }
+        }
+
+        boolean left = true;
+        //左子树仍然有结点，需要判断是否是
+        if(i - start > 0){
+           left =  verifySquenceOfBST(data, start, i - 1);
+        }
+
+        boolean right = true;
+        if(i < end - 1){
+            right = verifySquenceOfBST(data, i , end - 1);
+        }
+
+        return left && right;
     }
 
     public static boolean isOrderValid(int[] preOrder, int[] inOrder) {
