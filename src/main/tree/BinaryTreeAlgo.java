@@ -56,7 +56,12 @@ public class BinaryTreeAlgo {
 //        printTree(root);
 
         /**test: preOrder*/
-//        preOrder(n1);
+        Queue<BTNode> leafs = new LinkedList<BTNode>();
+        preOrder(n1, leafs);
+        while(!leafs.isEmpty()){
+            BTNode leaf = leafs.poll();
+            System.out.print(leaf.data + "  ");
+        }
 //        preOrder_nonRec(n1);
 
         /**test:midOrder*/
@@ -64,7 +69,6 @@ public class BinaryTreeAlgo {
 //        midOrder_nonRec(n1);
         /**test:postOrder*/
 //        postOrder(n1);
-
         /**test：hasSubTree*/
 //        System.out.println("是否包含相同的子树:" + hasSubTree(n1, ns));
 
@@ -72,9 +76,30 @@ public class BinaryTreeAlgo {
 //        printTree(n1);
 //        mirrorRecursively(n1);
 //        printTree(n1);
-        int[] data = {6,12,16,17,15,8,22,19};
-        System.out.println(verifySquenceOfBST(data, 0, data.length - 1));
+//        int[] data = {6,12,16,17,15,8,22,19};
+//        System.out.println(verifySquenceOfBST(data, 0, data.length - 1));
 
+
+        /**test: findPath*/
+//        findPath(n1, 8);
+
+//        BTNode bst1 = new BTNode(7);
+//        BTNode bst2 = new BTNode(4);
+//        BTNode bst3 = new BTNode(2);
+//        BTNode bst4 = new BTNode(5);
+//        BTNode bst5 = new BTNode(9);
+//        BTNode bst6 = new BTNode(8);
+//        bst1.left = bst2;
+//        bst1.right = bst5;
+//        bst2.left = bst3;
+//        bst2.right = bst4;
+//        bst5.left = bst6;
+//        /**test: */
+//        BTNode sortList = convertToSortedList(bst1);
+//        while (sortList != null) {
+//            System.out.print(sortList.data + "\t");
+//            sortList = sortList.right;
+//        }
     }
 
 
@@ -119,6 +144,81 @@ public class BinaryTreeAlgo {
             preOrder(root.left);
             preOrder(root.right);
         }
+    }
+    //通过前序遍历，从左到右获取所有叶子节点
+    public static void preOrder(BTNode root, Queue<BTNode> leafs) {
+        if (root != null) {
+//            System.out.print(root.data + "\t");
+            if(root.left == null && root.right == null){
+                leafs.add(root);
+            }
+            preOrder(root.left, leafs);
+            preOrder(root.right, leafs);
+        }
+    }
+
+    /**
+     * 查找两个结点的最低公共父节点
+     * 思路：递归查找，若node1和node2都在root的左子树，则递归查找root的左子树。
+     * 若node1和node2都在root的右子树，则递归查找root的右子树。
+     * 直到两个结点分别在root的左子树和右子树，此时的root结点即为最低的公共父节点
+     *
+     * @param root  树的根节点
+     * @param node1 结点1
+     * @param node2 结点2
+     * @return BTNode类型，即找到的最低公共父节点，如果未找到，则返回null
+     */
+    public static BTNode lowestCommonParent(BTNode root, BTNode node1, BTNode node2) {
+        if (root == null) {
+            return null;
+        }
+
+        if (node1 == null && node2 != null) {
+            return node2;
+        }
+        if (node1 != null && node2 == null) {
+            return node1;
+        }
+
+        if (hasNode(root.left, node1) && hasNode(root.left, node2)) {
+            return lowestCommonParent(root.left, node1, node2);
+        } else if (hasNode(root.right, node1) && hasNode(root.right, node2)) {
+            return lowestCommonParent(root.right, node1, node2);
+        } else {
+            return root;
+        }
+    }
+
+    /**
+     * 辅助方法：判断以root为根的二叉树是否包含node结点
+     *
+     * @param root 树的根节点
+     * @param node 待查找的结点
+     * @return boolean类型，包含则返回true，否则，返回false
+     */
+    public static boolean hasNode(BTNode root, BTNode node) {
+        //边界处理
+        if (root == null && node != null) {
+            return false;
+
+        }
+        if (node == null) {
+            return true;
+        }
+
+        //递归得到结点与node相同，返回true
+        if (root == node) {
+            return true;
+        }
+
+        //递归判断左子树和右子树
+        if (hasNode(root.left, node) || hasNode(root.right, node)) {
+            return true;
+        } else {
+            return false;
+        }
+
+
     }
 
     /**
@@ -204,6 +304,7 @@ public class BinaryTreeAlgo {
             System.out.print(root.data + "\t");
         }
     }
+
 
     /**
      * 根据前序遍历和中序遍历的序列构造二叉树
@@ -341,44 +442,128 @@ public class BinaryTreeAlgo {
     }
 
     /**
-     * 检查输入序列是否是一个平衡二叉树后序遍历序列。
+     * num24：检查输入序列是否是一个平衡二叉树后序遍历序列。
      * 思路：序列最后一个结点是根节点，平衡二叉树左半部分比根节点小，右半部分比根节点大。
      * 可以先找到分界线，然后判断右半部分是否都比根节点大，不然的话就不是平衡二叉树的后序遍历序列。
      * 然后依次判断左半部分和右半部分。这是一个递归的过程。
      * test：（null），（单个结点），（只有左子树的平衡二叉树）， （完整的平衡二叉树）
-     * */
-    public static boolean verifySquenceOfBST(int[] data, int start, int end){
+     */
+    public static boolean verifySquenceOfBST(int[] data, int start, int end) {
         //如果子树的length为0，则返回false。
-        if(data == null || end - start + 1 <= 0){
+        if (data == null || end - start + 1 <= 0) {
             return false;
         }
 
         int root = data[end];
         int i = start;
-        for(; i < end; i++){
-            if(data[i] > root){
+        for (; i < end; i++) {
+            if (data[i] > root) {
                 break;
             }
         }
 
-        for(int j = i ; j < end; j++){
-            if(data[j] < root){
+        for (int j = i; j < end; j++) {
+            if (data[j] < root) {
                 return false;
             }
         }
 
         boolean left = true;
         //左子树仍然有结点，需要判断是否是
-        if(i - start > 0){
-           left =  verifySquenceOfBST(data, start, i - 1);
+        if (i - start > 0) {
+            left = verifySquenceOfBST(data, start, i - 1);
         }
 
         boolean right = true;
-        if(i < end - 1){
-            right = verifySquenceOfBST(data, i , end - 1);
+        if (i < end - 1) {
+            right = verifySquenceOfBST(data, i, end - 1);
         }
 
         return left && right;
+    }
+
+    /**
+     * num25: 查找二叉树中，和为某个值的路径
+     * 思路：利用前序遍历的递归遍历思想，从根节点到叶子节点进行递归遍历，并在遍历的过程中判断和是否为指定的值。
+     * test：(null, 5),(1个结点的二叉树，5)， （二叉树包含两条路径和为10,10），（二叉树没有指定路径和的，10）
+     */
+    public static void findPath(BTNode root, int expectedSum) {
+        if (root == null) {
+            return;
+        }
+
+        Stack path = new Stack();
+
+        int curSum = 0;
+        findPath(root, path, curSum, expectedSum);
+    }
+
+    public static void findPath(BTNode root, Stack path, int curSum, int expectedSum) {
+
+        path.push(root.data);
+        curSum += root.data;
+        boolean isLeaf = root.left == null && root.right == null;
+        if (curSum == expectedSum && isLeaf) {
+            Iterator iter = path.iterator();
+            System.out.print("找到路径：");
+            while (iter.hasNext()) {
+                int data = (int) iter.next();
+                System.out.print(data + "\t");
+            }
+            System.out.println();
+        }
+
+        //如果不是叶子结点，则计算叶子结点的路径
+        if (root.left != null) {
+            findPath(root.left, path, curSum, expectedSum);
+        }
+
+        if (root.right != null) {
+            findPath(root.right, path, curSum, expectedSum);
+        }
+
+        //返回父节点之前，要删除当前结点，避免前序遍历中累计计算走过的结点
+        curSum -= root.data;
+        path.pop();
+    }
+
+    /**
+     * 将二叉搜索树转化为排序的双向链表， 要求不新建结点，在原来的二叉搜索树中实现转换。
+     * 二叉搜索树的中序遍历就是排序的结果，因此，可以在递归的时候设置指针，是left指向双向链表的前驱，right指向双向链表的后继。
+     */
+    static BTNode head = null;
+    static BTNode realHead = null;
+
+    public static BTNode convertToSortedList(BTNode root) {
+        convert(root);
+        //将listNode重新指向排序的双向链表的头结点
+        return realHead;
+    }
+
+    /**
+     * 在中序遍历的过程中处理链表指针， lastNode指向已转换好的链表的最后一个结点（值最大的结点）。
+     */
+    public static void convert(BTNode root) {
+        if (root == null) {
+            return;
+        }
+
+        //中序遍历step1：先递归左子树
+        convertToSortedList(root.left);
+
+        //中序遍历step2：处理链表指针
+
+        if (head == null) {
+            head = root;
+            realHead = root;
+        } else {
+            head.right = root;
+            root.left = head;
+            head = root;
+        }
+
+        //中序遍历step3：递归右子树
+        convertToSortedList(root.right);
     }
 
     public static boolean isOrderValid(int[] preOrder, int[] inOrder) {

@@ -20,8 +20,8 @@ public class BasicSortAlgo {
 
 
         /**test： ------插入排序------*/
-        insertSort(arr4);
-        ArrayUtil.printArray(arr4);
+        insertSort(arr1);
+        ArrayUtil.printArray(arr1);
 
         /**test: -------冒泡排序-------*/
 //        bubbleSort(arr5);
@@ -61,16 +61,13 @@ public class BasicSortAlgo {
 
         for (int i = 1; i < array.length; i++) {
             int curData = array[i];
-            int posForInsert = i;
-            for (int j = i - 1; j >= 0; j--) {
-                if (curData < array[j]) {
-                    array[j + 1] = array[j];
-                    posForInsert--;
-                } else {
-                    break;//0到i-1位置的元素都已经有序，所有大于curData的元素右移之后就可以结束
-                }
+            int j = i - 1;
+            while(j >= 0 && curData < array[j]){
+                array[j + 1] = array[j];
+                j--;
             }
-            array[posForInsert] = curData;
+
+            array[j + 1] = curData;
         }
     }
 
